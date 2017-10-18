@@ -8,16 +8,30 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import Note from './app/components/Note';
 
 export default class App extends Component {
+
+  state = {
+    noteArray: [{'note' : 'testnote 1'}],
+    noteText: '',
+  }
+
   render() {
+
+    let notes = this.state.noteArray.map((val, key) => {
+      return <Note key={key} keyval={key} val={val} deleteMethod={() => this.deleteNote(key)} />
+    });
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>- NOTE -</Text>
         </View>
 
-        <ScrollView style={styles.scrollContainer}></ScrollView>
+        <ScrollView style={styles.scrollContainer}>
+          {notes}
+        </ScrollView>
 
         <View style={styles.footer}>
 
@@ -30,7 +44,7 @@ export default class App extends Component {
             placeholderTextColor='white'
             underlineColorAndroid='transparent'
           />
-          
+
         </View>
       </View>
     );
