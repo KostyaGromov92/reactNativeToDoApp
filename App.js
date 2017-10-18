@@ -13,9 +13,23 @@ import Note from './app/components/Note';
 export default class App extends Component {
 
   state = {
-    noteArray: [{'note' : 'testnote 1'}],
+    noteArray: [{'date': 'testdate', 'note' : 'testnote 1'}],
     noteText: '',
   }
+
+  addNote = () => {
+    if(this.state.noteText) {
+      let date = new Date();
+      this.state.noteArray.push( {date: date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate(), 'note': this.state.noteText} );
+      this.setState({noteArray: this.state.noteArray});
+      this.setState({noteText: ''});
+    }
+  };
+
+  deleteNote = (key) => {
+    this.state.noteArray.splice(key, 1);
+    this.setState({noteArray: this.state.noteArray});
+  };
 
   render() {
 
@@ -35,7 +49,7 @@ export default class App extends Component {
 
         <View style={styles.footer}>
 
-          <TouchableOpacity style={styles.abbButton}>
+          <TouchableOpacity onPress={this.addNote} style={styles.abbButton}>
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
 
@@ -43,6 +57,8 @@ export default class App extends Component {
             placeholder='> note'
             placeholderTextColor='white'
             underlineColorAndroid='transparent'
+            onChangeText={(noteText) => this.setState({noteText})}
+            value={this.state.noteText}
           />
 
         </View>
